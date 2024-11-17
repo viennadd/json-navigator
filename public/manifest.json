@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "Hello Extensions of the world",
+  "description": "Base Level Extension",
+  "version": "1.0",
+  "permissions": ["activeTab"],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "web_accessible_resources": [{
+    "resources": ["/assets/*", "/index.html", "/vite.svg"],
+    "matches": ["<all_urls>"]
+  }],
+  "action": {
+    "default_popup": "index.html"
+  }
+}
