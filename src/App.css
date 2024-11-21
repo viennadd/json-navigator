@@ -17,7 +17,6 @@
   font-family: 'Code New Roman', Inter,system-ui,Avenir,Helvetica,Arial,sans-serif;
 }
 
-
 #statusBar {
   height: 22px;
   padding: 0 8px;
@@ -33,6 +32,6 @@
   margin-right: 16px;
 }
 
-.view-line {
+.view-line, .line-numbers {
   font-family: 'Code New Roman';
 }

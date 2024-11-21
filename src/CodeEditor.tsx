@@ -57,7 +57,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
     JSON.stringify({ example: "data" }, null, defaultTabSize);
 
   return (
-    <div className="w-full border rounded-lg overflow-hidden" id="editor">
+    <div className="w-full" id="editor">
       <monaco.Editor
         defaultLanguage="json"
         defaultValue={defaultContent}
@@ -66,7 +66,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
           readOnly: true,
           minimap: { enabled: true },
           fontSize: 14,
-          wordWrap: 'on',
+          wordWrap: 'off',
           formatOnPaste: true,
           formatOnType: true,
           automaticLayout: true,
@@ -76,15 +76,15 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
         onMount={handleEditorDidMount}
       />
 
-    <div id="statusBar">
-            <div className="status-left">
-                <span className="status-item" id="position">Ln {position.line}, Col {position.column}</span>
-                <span className="status-item" id="selection">Sel {selection}</span>
-            </div>
-            <div className="status-right">
-                <span className="status-item" id="language">{language}</span>
-            </div>
-        </div>
+      <div id="statusBar">
+          <div className="status-left">
+              <span className="status-item" id="position">Ln {position.line}, Col {position.column}</span>
+              <span className="status-item" id="selection">Sel {selection}</span>
+          </div>
+          <div className="status-right">
+              <span className="status-item" id="language">{language}</span>
+          </div>
+      </div>
     </div>
   );
 };
