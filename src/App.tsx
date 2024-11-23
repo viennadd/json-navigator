@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import './App.css'
 import CodeEditor from './CodeEditor'
 import ResizableSplitView from './ResizableSplitView'
+import FlowView from './FlowView'
+import '@xyflow/react/dist/style.css';
 
 
 function App() {
@@ -37,7 +39,10 @@ function App() {
             initialContent={JSON.parse(jsonData)}
           />
         } 
-        rightSide={<>aaaa</>} 
+        // rightSide={<RightSide></RightSide>} 
+        rightSide={
+          <FlowView></FlowView>
+        }
       />
     </>
   )
