@@ -1,9 +1,11 @@
 # TODO:
-[ ] support JSON  
-[ ] support common programming languages  
-[ ] generate xyflow graph
-[ ] option page for theme, font, editability settings  
-[ ] support switching on original and formatted content  
-[ ] status bar: cursor location, encoding, indentation  
-[ ] select json content when click to corresponding graph node
-[ ] display action icons when hover, display copy icon when selecting some content
+- [x] support JSON  
+- [ ] support common programming languages  
+- [x] generate xyflow graph
+- [ ] option page for theme, font, editability settings  
+- [ ] support switching on original and formatted content  
+- [x] status bar: cursor location, encoding, indentation  
+- [ ] select json content when click to corresponding graph node
+- [ ] display action icons when hover, display copy icon when selecting some content
+- [ ] animated selected lines
+- [ ] do layout once loaded 

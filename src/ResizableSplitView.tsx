@@ -1,11 +1,14 @@
 import React, { useState, useRef, useEffect, MouseEvent as ReactMouseEvent, ReactNode } from 'react';
 
+const SPLIT_VIEW_RADIO = 1.618;
+
+
 const ResizableSplitView: React.FC<{
     leftSide: ReactNode,
     rightSide: ReactNode
 }> = ({leftSide, rightSide}) => {
   const [isDragging, setIsDragging] = useState(false);
-  const [splitPosition, setSplitPosition] = useState(50);
+  const [splitPosition, setSplitPosition] = useState(100 / (1+SPLIT_VIEW_RADIO));
   const containerRef = useRef<HTMLDivElement | null>(null);
   const dragHandleRef = useRef<HTMLDivElement | null>(null);
 

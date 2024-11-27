@@ -35,8 +35,8 @@ const JsonValueDisplayTableCell = (props: {entry: JsonField}) => {
     extraClass += "text-sky-500"
   }
 
-  return <TableCell className="pr-0 text-right font-medium text-sm">
-          <label className={`px-3 text-foreground p-0 ${extraClass}`}>{displayValue}</label>
+  return <TableCell className="pr-0 font-medium text-sm">
+          <label className={`px-0 text-foreground p-0 ${extraClass}`}>{displayValue}</label>
         </TableCell>
 }
 
@@ -46,7 +46,7 @@ export function DatabaseSchemaNode({
 }: NodeProps<DatabaseSchemaNode>) {
   return (
     <BaseNode className="p-0" selected={selected}>
-      <h2 className="rounded-tl-md rounded-tr-md bg-secondary p-2 text-center text-sm text-muted-foreground">
+      <h2 className="rounded-tl-md rounded-tr-md bg-secondary text-center text-sm text-muted-foreground">
         
         <LabeledHandle
           id={data.label}
@@ -56,11 +56,11 @@ export function DatabaseSchemaNode({
         />
       </h2>
       {/* shadcn Table cannot be used because of hardcoded overflow-auto */}
-      <table className="border-spacing-10 overflow-visible">
+      <table className="border-spacing-10 overflow-visible w-full">
         <TableBody>
           {data.schema.map((entry: JsonField) => (
             <TableRow key={entry.title} className="relative text-xs">
-              <TableCell className="pl-0 pr-6 font-light">
+              <TableCell className="pl-0 text-right font-light">
                 <label className={`px-3 text-foreground p-0 text-slate-300`}>{entry.title}</label>
                 
               </TableCell>
