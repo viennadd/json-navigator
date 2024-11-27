@@ -1,11 +1,8 @@
 import React, { useRef, useState } from 'react';
 import * as monaco from '@monaco-editor/react';
 import { editor } from 'monaco-editor';
+import { JsonObject } from './Json';
 
-// Define a generic type for the JSON content
-type JsonValue = string | number | boolean | null | JsonObject | JsonArray;
-type JsonObject = { [key: string]: JsonValue };
-type JsonArray = JsonValue[];
 
 interface CodeEditorProps {
   initialContent?: JsonObject;

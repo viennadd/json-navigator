@@ -4,10 +4,11 @@ import CodeEditor from './CodeEditor'
 import ResizableSplitView from './ResizableSplitView'
 import FlowView from './FlowView'
 import '@xyflow/react/dist/style.css';
+import { JsonObject } from './Json'
 
 
 function App() {
-  const [jsonData, setJsonData] = useState<string>('{}')
+  const [jsonData, setJsonData] = useState<JsonObject | null>(null)
 
   const fetchData = async () => {
     try {
@@ -20,7 +21,7 @@ function App() {
       }
       
       const jsonResponse = await response.json();
-      setJsonData(JSON.stringify(jsonResponse));
+      setJsonData(jsonResponse);
     } catch (error) {
       console.error(error)
     }
@@ -33,17 +34,18 @@ function App() {
 
   return (
     <>
-      <ResizableSplitView 
+    {
+    jsonData === null ? 
+    <>Loading...</> : 
+    <ResizableSplitView 
         leftSide={
-          <CodeEditor 
-            initialContent={JSON.parse(jsonData)}
-          />
+          <CodeEditor initialContent={jsonData} />
         } 
-        // rightSide={<RightSide></RightSide>} 
         rightSide={
-          <FlowView></FlowView>
+          <FlowView jsonContent={jsonData}></FlowView>
         }
       />
+    }
     </>
   )
 }
