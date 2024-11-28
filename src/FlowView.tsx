@@ -9,10 +9,13 @@ import {
   Panel,
   useEdgesState,
   Controls,
+  ReactFlowInstance,
+  useNodesInitialized,
+  ReactFlowProvider,
 } from "@xyflow/react";
 import { DatabaseSchemaNode } from "@/components/database-schema-node";
 import Dagre from "@dagrejs/dagre";
-import { useCallback } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   JsonArray,
   JsonObject,
@@ -176,24 +179,41 @@ const getFlowElementsFromJsonObject = (
   return { nodes, edges };
 };
 
-export default function FlowView(props: { jsonContent: JsonObject }) {
+const JsonFlowView = (props: { jsonContent: JsonObject }) => {
   const { jsonContent } = props;
   const { nodes: defaultNodes, edges: defaultEdges } =
     getFlowElementsFromJsonObject(jsonContent);
+  const reactFlowInstance = useRef<ReactFlowInstance | null>(null);
 
   const [nodes, setNodes, onNodesChange] = useNodesState(defaultNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(defaultEdges);
+  const nodesInitialized = useNodesInitialized();
+  const [isInstanceReady, setIsInstanceReady] = useState<boolean>(false);
 
   const onLayout = useCallback(
-    (direction: LayoutOptions) => {
+    (direction: LayoutOptions = { direction: "LR" }) => {
       const { nodes: layoutedNodes, edges: layoutedEdges } =
         getLayoutedElements(nodes, edges, direction);
 
       setNodes([...layoutedNodes]);
       setEdges([...layoutedEdges]);
+      setTimeout(() => {
+        reactFlowInstance.current?.fitView({ duration: 618 });
+      }, 100);
     },
     [nodes, edges]
   );
+
+  useEffect(() => {
+    if (nodesInitialized && isInstanceReady) {
+      onLayout();
+    }
+  }, [nodesInitialized, isInstanceReady]);
+
+  const onInit = useCallback((instance: ReactFlowInstance) => {
+    reactFlowInstance.current = instance;
+    setIsInstanceReady(true);
+  }, []);
 
   return (
     <div className="h-full w-full">
@@ -205,6 +225,7 @@ export default function FlowView(props: { jsonContent: JsonObject }) {
         edges={edges}
         nodeTypes={nodeTypes}
         fitView
+        onInit={onInit}
       >
         <Controls orientation="horizontal" />
 
@@ -219,5 +240,13 @@ export default function FlowView(props: { jsonContent: JsonObject }) {
         <Background />
       </ReactFlow>
     </div>
+  );
+};
+
+export default function FlowView(props: { jsonContent: JsonObject }) {
+  return (
+    <ReactFlowProvider>
+      <JsonFlowView {...props}></JsonFlowView>
+    </ReactFlowProvider>
   );
 }
