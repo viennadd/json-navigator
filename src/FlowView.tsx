@@ -8,6 +8,7 @@ import {
   useNodesState,
   Panel,
   useEdgesState,
+  Controls,
 } from "@xyflow/react";
 import { DatabaseSchemaNode } from "@/components/database-schema-node";
 import Dagre from "@dagrejs/dagre";
@@ -205,6 +206,8 @@ export default function FlowView(props: { jsonContent: JsonObject }) {
         nodeTypes={nodeTypes}
         fitView
       >
+        <Controls orientation="horizontal" />
+
         <Panel position="top-right">
           <button onClick={() => onLayout({ direction: "TB" })}>
             vertical layout

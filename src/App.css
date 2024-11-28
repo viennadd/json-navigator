@@ -36,3 +36,25 @@
 .view-line, .line-numbers {
   font-family: 'Code New Roman';
 }
+
+
+.react-flow__controls button {
+  border: 1px solid #007acc;
+  border-right: none;
+  border-radius: 0%;
+}
+ 
+.react-flow__controls button:hover {
+  background-color: rgb(105, 105, 105);
+}
+ 
+.react-flow__controls button:first-child {
+  border-radius: 5px 0 0 5px;
+}
+ 
+.react-flow__controls button:last-child {
+  border-right: 1px solid #007acc;
+  border-bottom: 1px solid #007acc;
+
+  border-radius: 0 5px 5px 0;
+}
