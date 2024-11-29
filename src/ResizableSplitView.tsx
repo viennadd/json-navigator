@@ -24,8 +24,8 @@ const ResizableSplitView: React.FC<{
     const containerRect = container.getBoundingClientRect();
     const newPosition = ((e.clientX - containerRect.left) / containerRect.width) * 100;
 
-    // Limit the split position between 20% and 80%
-    const clampedPosition = Math.min(Math.max(newPosition, 20), 80);
+    // Limit the split position between 10% and 90%
+    const clampedPosition = Math.min(Math.max(newPosition, 10), 90);
     setSplitPosition(clampedPosition);
   };
 

@@ -228,15 +228,6 @@ const JsonFlowView = (props: { jsonContent: JsonObject }) => {
         onInit={onInit}
       >
         <Controls orientation="horizontal" />
-
-        <Panel position="top-right">
-          <button onClick={() => onLayout({ direction: "TB" })}>
-            vertical layout
-          </button>
-          <button onClick={() => onLayout({ direction: "LR" })}>
-            horizontal layout
-          </button>
-        </Panel>
         <Background />
       </ReactFlow>
     </div>

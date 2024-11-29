@@ -2,12 +2,13 @@
   width: 100vw;
   margin: 0;
   height: 100vh;
-  font-family: 'Code New Roman', Inter,system-ui,Avenir,Helvetica,Arial,sans-serif;
+  font-family: "Code New Roman", Inter, system-ui, Avenir, Helvetica, Arial,
+    sans-serif;
 }
 
 @font-face {
-  font-family: 'Code New Roman';
-  src: url(/fonts/code-new-roman.regular.otf) format('opentype');
+  font-family: "Code New Roman";
+  src: url(/fonts/code-new-roman.regular.otf) format("opentype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -15,13 +16,14 @@
 
 #editor {
   height: calc(100vh - 22px);
-  font-family: 'Code New Roman', Inter,system-ui,Avenir,Helvetica,Arial,sans-serif;
+  font-family: "Code New Roman", Inter, system-ui, Avenir, Helvetica, Arial,
+    sans-serif;
 }
 
 #statusBar {
   height: 22px;
   padding: 0 8px;
-  background-color: #007ACC;
+  background-color: #007acc;
   color: white;
   display: flex;
   align-items: center;
@@ -30,31 +32,49 @@
 }
 
 .status-item {
-  margin-right: 16px;
+  margin-right: 8px;
 }
 
-.view-line, .line-numbers {
-  font-family: 'Code New Roman';
+.status-actions {
+  height: 100%;
+  width: auto;
+  display: inline-flex;
 }
 
+.status-actions .status-item {
+  transform: scale(0.8);
+  border: #1a1a1a;
+  border-width: 1px;
+}
+
+.status-actions .status-item :hover {
+  background-color: #1a1a1a;
+  transition-duration: .25s;
+}
+
+.view-line,
+.line-numbers {
+  font-family: "Code New Roman";
+}
 
 .react-flow__controls button {
   border: 1px solid #007acc;
   border-right: none;
   border-radius: 0%;
 }
- 
+
 .react-flow__controls button:hover {
   background-color: rgb(105, 105, 105);
 }
- 
+
 .react-flow__controls button:first-child {
   border-radius: 5px 0 0 5px;
 }
- 
+
 .react-flow__controls button:last-child {
   border-right: 1px solid #007acc;
   border-bottom: 1px solid #007acc;
 
   border-radius: 0 5px 5px 0;
 }
+
