@@ -49,10 +49,9 @@
 
 .status-actions .status-item :hover {
   background-color: #1a1a1a;
-  transition-duration: .25s;
+  transition-duration: 0.25s;
 }
 
-.view-line,
 .line-numbers {
   font-family: "Code New Roman";
 }
@@ -77,4 +76,3 @@
 
   border-radius: 0 5px 5px 0;
 }
-

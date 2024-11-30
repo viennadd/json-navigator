@@ -1,8 +1,13 @@
-import React, { Dispatch, SetStateAction, useRef, useState } from "react";
-import * as monaco from "@monaco-editor/react";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useRef,
+  useState,
+} from "react";
 import { editor } from "monaco-editor";
 import { JsonObject } from "./json-utils";
-import { CodeOnlyIcon, SplitViewIcon } from "./icons";
+import { CodeOnlyIcon, SplitViewIcon } from "./icons.tsx";
+import { Editor } from "@monaco-editor/react";
 
 interface CodeEditorProps {
   initialContent?: JsonObject;
@@ -26,7 +31,6 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
     monacoEditor: editor.IStandaloneCodeEditor
   ): void => {
     editorRef.current = monacoEditor;
-
     // Set up cursor position listener
     monacoEditor.onDidChangeCursorPosition((e) => {
       setPosition({
@@ -58,7 +62,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
 
   return (
     <div className="w-full" id="editor">
-      <monaco.Editor
+      <Editor
         defaultLanguage="json"
         defaultValue={defaultContent}
         theme="vs-dark"
