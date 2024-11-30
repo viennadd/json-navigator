@@ -1,3 +1,8 @@
+:root {
+  --editor-status-bar-height: 22px;
+  --editor-top-menu-height: 22px;
+}
+
 #root {
   width: 100vw;
   margin: 0;
@@ -15,13 +20,15 @@
 }
 
 #editor {
-  height: calc(100vh - 22px);
+  height: calc(
+    100vh - var(--editor-status-bar-height) - var(--editor-top-menu-height)
+  );
   font-family: "Code New Roman", Inter, system-ui, Avenir, Helvetica, Arial,
     sans-serif;
 }
 
-#statusBar {
-  height: 22px;
+#statusBar, #topMenu {
+  height: var(--editor-status-bar-height);
   padding: 0 8px;
   background-color: #007acc;
   color: white;
@@ -32,6 +39,10 @@
 }
 
 .status-item {
+  margin-right: 8px;
+}
+
+.menu-item {
   margin-right: 8px;
 }
 

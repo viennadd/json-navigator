@@ -1,12 +1,7 @@
-import React, {
-  Dispatch,
-  SetStateAction,
-  useRef,
-  useState,
-} from "react";
+import React, { Dispatch, SetStateAction, useRef, useState } from "react";
 import { editor } from "monaco-editor";
 import { JsonObject } from "./json-utils";
-import { CodeOnlyIcon, SplitViewIcon } from "./icons.tsx";
+import { CodeOnlyIcon, SplitViewIcon } from "./icons";
 import { Editor } from "@monaco-editor/react";
 
 interface CodeEditorProps {
@@ -16,6 +11,97 @@ interface CodeEditorProps {
   showSplitView: boolean;
   setShowSplitView: Dispatch<SetStateAction<boolean>>;
 }
+
+interface StatusBarProps {
+  showSplitView: boolean;
+  setShowSplitView: Dispatch<SetStateAction<boolean>>;
+  position: { line: number; column: number };
+  selection: number;
+}
+
+interface TopMenuProps {
+  editorRef: React.MutableRefObject<editor.IStandaloneCodeEditor | null>;
+}
+
+const TopMenu: React.FC<TopMenuProps> = (props: TopMenuProps) => {
+  const { editorRef } = props;
+  const [folded, setFolded] = useState<boolean>(false);
+
+  const setFoldingState = (folded: boolean) => {
+    setFolded(folded);
+  
+    editorRef.current?.trigger(
+      "fold",
+      folded ? "editor.foldLevel2" : "editor.unfoldAll",
+      {}
+    );
+  };
+  
+
+  return (
+    <div id="topMenu">
+      <div>
+        {folded ? (
+          <span
+            className="menu-item"
+            id="menu-unfold"
+            title="Unfold code."
+            onClick={() => setFoldingState(false)}
+          >
+            Unfold Code
+          </span>
+        ) : (
+          <span
+            className="menu-item"
+            id="menu-fold"
+            title="Fold code."
+            onClick={() => setFoldingState(true)}
+          >
+            Fold Code
+          </span>
+        )}
+      </div>
+    </div>
+  );
+};
+
+const StatusBar: React.FC<StatusBarProps> = (props: StatusBarProps) => {
+  const { showSplitView, setShowSplitView, position, selection } = props;
+  return (
+    <div id="statusBar">
+      <div className="status-actions">
+        {showSplitView ? (
+          <span
+            className="status-item"
+            id="codeOnlyIcon"
+            title="Show code view only."
+            onClick={() => setShowSplitView(false)}
+          >
+            <CodeOnlyIcon></CodeOnlyIcon>
+          </span>
+        ) : (
+          <span
+            className="status-item"
+            id="splitViewIcon"
+            title="Show split view."
+            onClick={() => setShowSplitView(true)}
+          >
+            <SplitViewIcon></SplitViewIcon>
+          </span>
+        )}
+      </div>
+      <div className="status-right">
+        <span className="status-item" id="position">
+          Ln {position.line}, Col {position.column}
+        </span>
+
+        <span className="status-item" id="selection">
+          Sel {selection}
+        </span>
+      </div>
+    </div>
+  );
+};
 
 const CodeEditor: React.FC<CodeEditorProps> = ({
   initialContent,
@@ -45,15 +131,6 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
       const selectedText = monacoEditor.getModel()!.getValueInRange(selection);
       setSelection(selectedText.length);
     });
-
-    // // Set up language change listener
-    // monacoEditor.onDidChangeModelLanguage(() => {
-    //   setLanguage(monacoEditor.getModel()!.getLanguageId());
-    // });
-
-    // // Format the JSON content on mount
-    // monacoEditor.getAction("editor.action.formatDocument")?.run();
-    // setLanguage(monacoEditor.getModel()!.getLanguageId());
   };
 
   const defaultContent = initialContent
@@ -62,10 +139,11 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
 
   return (
     <div className="w-full" id="editor">
+      <TopMenu editorRef={editorRef}></TopMenu>
       <Editor
         defaultLanguage="json"
         defaultValue={defaultContent}
-        theme="vs-dark"
+        theme="vs"
         options={{
           readOnly: true,
           minimap: { enabled: true },
@@ -79,39 +157,12 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
         }}
         onMount={handleEditorDidMount}
       />
-
-      <div id="statusBar">
-        <div className="status-actions">
-          {showSplitView ? (
-            <span
-              className="status-item"
-              id="codeOnlyIcon"
-              title="Show code view only."
-              onClick={() => setShowSplitView(false)}
-            >
-              <CodeOnlyIcon></CodeOnlyIcon>
-            </span>
-          ) : (
-            <span
-              className="status-item"
-              id="splitViewIcon"
-              title="Show split view."
-              onClick={() => setShowSplitView(true)}
-            >
-              <SplitViewIcon></SplitViewIcon>
-            </span>
-          )}
-        </div>
-        <div className="status-right">
-          <span className="status-item" id="position">
-            Ln {position.line}, Col {position.column}
-          </span>
-
-          <span className="status-item" id="selection">
-            Sel {selection}
-          </span>
-        </div>
-      </div>
+      <StatusBar
+        showSplitView={showSplitView}
+        setShowSplitView={setShowSplitView}
+        position={position}
+        selection={selection}
+      ></StatusBar>
     </div>
   );
 };
