@@ -22,7 +22,7 @@ import {
   JsonValue,
   JsonField,
   getJsonType,
-} from "./Json";
+} from "./json-utils";
 
 interface LayoutOptions {
   direction: string;

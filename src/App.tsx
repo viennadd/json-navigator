@@ -4,7 +4,7 @@ import CodeEditor from "./CodeEditor";
 import ResizableSplitView from "./ResizableSplitView";
 import FlowView from "./FlowView";
 import "@xyflow/react/dist/style.css";
-import { JsonObject } from "./Json";
+import { JsonObject } from "./json-utils";
 
 function FullView(props: {
   showSplitView: boolean;
@@ -12,25 +12,22 @@ function FullView(props: {
   jsonData: JsonObject;
 }) {
   const { showSplitView, setShowSplitView, jsonData } = props;
+  const codeEditor = (
+    <CodeEditor
+      initialContent={jsonData}
+      showSplitView={showSplitView}
+      setShowSplitView={setShowSplitView}
+    />
+  );
   if (showSplitView) {
     return (
       <ResizableSplitView
-        leftSide={
-          <CodeEditor
-            initialContent={jsonData}
-            setShowSplitView={setShowSplitView}
-          />
-        }
+        leftSide={codeEditor}
         rightSide={<FlowView jsonContent={jsonData}></FlowView>}
       />
     );
   } else {
-    return (
-      <CodeEditor
-        initialContent={jsonData}
-        setShowSplitView={setShowSplitView}
-      />
-    );
+    return codeEditor;
   }
 }
 
@@ -52,6 +49,7 @@ function App() {
       setJsonData(jsonResponse);
     } catch (error) {
       console.error(error);
+      setJsonData({"message": "no JSON data loaded, you may not opening a JSON content."})
     }
   };
 

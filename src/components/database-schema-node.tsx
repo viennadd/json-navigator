@@ -4,7 +4,7 @@ import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 
 import { BaseNode } from "@/components/base-node";
 import { LabeledHandle } from "@/components/labeled-handle";
-import { JsonField, getJsonType, isAggregatedType } from "@/Json";
+import { JsonField, getJsonType, isAggregatedType } from "@/json-utils";
 
 type DatabaseSchemaNode = Node<{
   label: string;
