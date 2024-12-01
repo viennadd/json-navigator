@@ -5,7 +5,7 @@ import { CodeOnlyIcon, SplitViewIcon } from "./icons";
 import { Editor } from "@monaco-editor/react";
 
 interface CodeEditorProps {
-  initialContent?: JsonObject;
+  initialContent: string;
   onChange?: (value: string) => void;
   height?: string;
   showSplitView: boolean;
@@ -21,22 +21,35 @@ interface StatusBarProps {
 
 interface TopMenuProps {
   editorRef: React.MutableRefObject<editor.IStandaloneCodeEditor | null>;
+  initialContent: string;
 }
 
 const TopMenu: React.FC<TopMenuProps> = (props: TopMenuProps) => {
-  const { editorRef } = props;
+  const { editorRef, initialContent } = props;
   const [folded, setFolded] = useState<boolean>(false);
+  const [showFormattedContent, setShowFormattedContent] =
+    useState<boolean>(true);
+  const defaultTabSize = 2;
 
   const setFoldingState = (folded: boolean) => {
     setFolded(folded);
-  
+
     editorRef.current?.trigger(
       "fold",
       folded ? "editor.foldLevel2" : "editor.unfoldAll",
       {}
     );
   };
-  
+
+  const setFormattingState = (showFormattedContent: boolean) => {
+    setShowFormattedContent(showFormattedContent);
+
+    editorRef.current?.setValue(
+      showFormattedContent
+        ? JSON.stringify(JSON.parse(initialContent), null, defaultTabSize)
+        : initialContent
+    );
+  };
 
   return (
     <div id="topMenu">
@@ -58,6 +71,26 @@ const TopMenu: React.FC<TopMenuProps> = (props: TopMenuProps) => {
             onClick={() => setFoldingState(true)}
           >
             Fold Code
+          </span>
+        )}
+
+        {showFormattedContent ? (
+          <span
+            className="menu-item"
+            id="menu-raw-content"
+            title="Raw Content."
+            onClick={() => setFormattingState(false)}
+          >
+            Raw Content
+          </span>
+        ) : (
+          <span
+            className="menu-item"
+            id="menu-prettier"
+            title="Code Prettify."
+            onClick={() => setFormattingState(true)}
+          >
+            Pretty Code
           </span>
         )}
       </div>
@@ -133,16 +166,12 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
     });
   };
 
-  const defaultContent = initialContent
-    ? JSON.stringify(initialContent, null, defaultTabSize)
-    : JSON.stringify({ example: "data" }, null, defaultTabSize);
-
   return (
     <div className="w-full" id="editor">
-      <TopMenu editorRef={editorRef}></TopMenu>
+      <TopMenu editorRef={editorRef} initialContent={initialContent}></TopMenu>
       <Editor
         defaultLanguage="json"
-        defaultValue={defaultContent}
+        defaultValue={initialContent}
         theme="vs"
         options={{
           readOnly: true,

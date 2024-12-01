@@ -80,10 +80,12 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [ ] option page for theme, font, editability settings  
 - [x] status bar: cursor location, encoding, indentation  
 - [ ] select json content when click to corresponding graph node
-- [ ] display action icons when hover, display copy icon when selecting some content
-- [ ] actions: save, copy, expand-all, collapse-all, raw content, pretty print, minify
+- [ ] actions: save, copy, expand-all, collapse-all, raw content, pretty print, minify (download raw content instead of just response.json())
 - [x] auto layout once loaded, then zoom accordingly
 - [x] show left/right side hiding bottons when hover on the top
 - [x] show reactflow toolbar
 - [ ] show size of the aggregated objects
 - [ ] add JSON test case files
+- [ ] expand/collapse button for all aggregated nodes
+- [ ] synchronizing code&nodes selection and foldings 
+- [ ] 

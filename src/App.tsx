@@ -9,7 +9,7 @@ import { JsonObject } from "./json-utils";
 function FullView(props: {
   showSplitView: boolean;
   setShowSplitView: Dispatch<SetStateAction<boolean>>;
-  jsonData: JsonObject;
+  jsonData: string;
 }) {
   const { showSplitView, setShowSplitView, jsonData } = props;
   const codeEditor = (
@@ -23,7 +23,7 @@ function FullView(props: {
     return (
       <ResizableSplitView
         leftSide={codeEditor}
-        rightSide={<FlowView jsonContent={jsonData}></FlowView>}
+        rightSide={<FlowView jsonContent={JSON.parse(jsonData)}></FlowView>}
       />
     );
   } else {
@@ -32,7 +32,7 @@ function FullView(props: {
 }
 
 function App() {
-  const [jsonData, setJsonData] = useState<JsonObject | null>(null);
+  const [jsonData, setJsonData] = useState<string | null>(null);
   const [showSplitView, setShowSplitView] = useState<boolean>(true);
 
   const fetchData = async () => {
@@ -45,11 +45,11 @@ function App() {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const jsonResponse = await response.json();
+      const jsonResponse = await response.text();
       setJsonData(jsonResponse);
     } catch (error) {
       console.error(error);
-      setJsonData({"message": "no JSON data loaded, you may not opening a JSON content."})
+      setJsonData('{"message": "no JSON data loaded, you may not opening a JSON content."}')
     }
   };
 

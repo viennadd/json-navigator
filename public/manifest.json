@@ -11,8 +11,7 @@
       "run_at": "document_start"
     }
   ],
-  "web_accessible_resources": [{
-    "resources": ["assets/*", "index.html", "vite.svg", "fonts/code-new-roman.regular.otf"],
+  "web_accessible_resources": [{"resources": ["assets/*", "index.html", "vite.svg", "fonts/code-new-roman.regular.otf"],
     "matches": ["<all_urls>"]
   }],
   "action": {
