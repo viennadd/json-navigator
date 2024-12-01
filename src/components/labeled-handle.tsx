@@ -22,7 +22,6 @@ const LabeledHandle = React.forwardRef<
   HandleProps &
     React.HTMLAttributes<HTMLDivElement> & {
       title: string;
-      handleClassName?: string;
       labelClassName?: string;
     }
 >(({ className, labelClassName, title, position, ...props }, ref) => (

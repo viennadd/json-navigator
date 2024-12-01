@@ -27,9 +27,10 @@
     sans-serif;
 }
 
-#statusBar, #topMenu {
+#statusBar,
+#topMenu {
   height: var(--editor-status-bar-height);
-  padding: 0 8px;
+  /* padding: 0 8px; */
   background-color: #007acc;
   color: white;
   display: flex;
@@ -43,7 +44,23 @@
 }
 
 .menu-item {
-  margin-right: 8px;
+  padding-right: 4px;
+  padding-left: 4px;
+  height: 100%;
+  display: inline-block;
+  align-items: center;
+  border-right-width: 1px;
+  border-style: groove;
+  cursor: pointer;
+}
+
+.menu-group {
+  height: 100%;
+}
+
+.menu-item:hover {
+  background-color: #00548b;
+  transition-duration: 0.25s;
 }
 
 .status-actions {
@@ -59,7 +76,7 @@
 }
 
 .status-actions .status-item :hover {
-  background-color: #1a1a1a;
+  background-color: #00548b;
   transition-duration: 0.25s;
 }
 

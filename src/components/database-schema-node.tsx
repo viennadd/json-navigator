@@ -74,7 +74,6 @@ export function DatabaseSchemaNode({
                     type="source"
                     position={Position.Right}
                     className="p-0 text-slate-600"
-                    handleClassName="p-0"
                     labelClassName="p-0 text-slate-600"
                   /> :
                   <label className={`px-3 text-foreground p-0 text-slate-600`}>{entry.type}</label>

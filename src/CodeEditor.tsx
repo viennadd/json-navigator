@@ -1,6 +1,5 @@
-import React, { Dispatch, SetStateAction, useRef, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { editor } from "monaco-editor";
-import { JsonObject } from "./json-utils";
 import { CodeOnlyIcon, SplitViewIcon } from "./icons";
 import { Editor } from "@monaco-editor/react";
 
@@ -51,15 +50,20 @@ const TopMenu: React.FC<TopMenuProps> = (props: TopMenuProps) => {
     );
   };
 
+  useEffect(() => {
+    setFoldingState(folded);
+    setFormattingState(showFormattedContent);
+  }, []);
+
   return (
     <div id="topMenu">
-      <div>
+      <div className="menu-group">
         {folded ? (
           <span
             className="menu-item"
             id="menu-unfold"
             title="Unfold code."
-            onClick={() => setFoldingState(false)}
+            onClick={() => setFoldingState(!folded)}
           >
             Unfold Code
           </span>
@@ -68,7 +72,7 @@ const TopMenu: React.FC<TopMenuProps> = (props: TopMenuProps) => {
             className="menu-item"
             id="menu-fold"
             title="Fold code."
-            onClick={() => setFoldingState(true)}
+            onClick={() => setFoldingState(!folded)}
           >
             Fold Code
           </span>
@@ -79,18 +83,18 @@ const TopMenu: React.FC<TopMenuProps> = (props: TopMenuProps) => {
             className="menu-item"
             id="menu-raw-content"
             title="Raw Content."
-            onClick={() => setFormattingState(false)}
+            onClick={() => setFormattingState(!showFormattedContent)}
           >
-            Raw Content
+            Show Raw Content
           </span>
         ) : (
           <span
             className="menu-item"
             id="menu-prettier"
             title="Code Prettify."
-            onClick={() => setFormattingState(true)}
+            onClick={() => setFormattingState(!showFormattedContent)}
           >
-            Pretty Code
+            Show Pretty Code
           </span>
         )}
       </div>

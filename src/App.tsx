@@ -4,7 +4,7 @@ import CodeEditor from "./CodeEditor";
 import ResizableSplitView from "./ResizableSplitView";
 import FlowView from "./FlowView";
 import "@xyflow/react/dist/style.css";
-import { JsonObject } from "./json-utils";
+import { JSON_DEMO_VALUE } from "./json-utils";
 
 function FullView(props: {
   showSplitView: boolean;
@@ -46,10 +46,14 @@ function App() {
       }
 
       const jsonResponse = await response.text();
-      setJsonData(jsonResponse);
+      if (response.headers.get("Content-type")?.toLowerCase() === "application/json") {
+        setJsonData(jsonResponse);
+      } else {
+        throw "Not JSON content"
+      }
     } catch (error) {
       console.error(error);
-      setJsonData('{"message": "no JSON data loaded, you may not opening a JSON content."}')
+      setJsonData(JSON_DEMO_VALUE)
     }
   };
 
