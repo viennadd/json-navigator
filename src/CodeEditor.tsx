@@ -27,7 +27,7 @@ const TopMenu: React.FC<TopMenuProps> = (props: TopMenuProps) => {
   const { editorRef, initialContent } = props;
   const [folded, setFolded] = useState<boolean>(false);
   const [showFormattedContent, setShowFormattedContent] =
-    useState<boolean>(true);
+    useState<boolean>(false);
   const defaultTabSize = 2;
 
   const setFoldingState = (folded: boolean) => {
@@ -49,11 +49,6 @@ const TopMenu: React.FC<TopMenuProps> = (props: TopMenuProps) => {
         : initialContent
     );
   };
-
-  useEffect(() => {
-    setFoldingState(folded);
-    setFormattingState(showFormattedContent);
-  }, []);
 
   return (
     <div id="topMenu">
@@ -147,7 +142,6 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
 }) => {
   const [position, setPosition] = useState({ line: 1, column: 1 });
   const [selection, setSelection] = useState(0);
-  const defaultTabSize = 4;
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
 
   const handleEditorDidMount = (
@@ -168,6 +162,10 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
       const selectedText = monacoEditor.getModel()!.getValueInRange(selection);
       setSelection(selectedText.length);
     });
+
+    monacoEditor.updateOptions({
+      'fontFamily': 'Code New Roman',
+    });
   };
 
   return (
@@ -180,13 +178,10 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
         options={{
           readOnly: true,
           minimap: { enabled: true },
-          fontSize: 14,
+          fontSize: 12,
           wordWrap: "off",
-          formatOnPaste: true,
-          formatOnType: true,
           automaticLayout: true,
           scrollBeyondLastLine: false,
-          tabSize: defaultTabSize,
         }}
         onMount={handleEditorDidMount}
       />

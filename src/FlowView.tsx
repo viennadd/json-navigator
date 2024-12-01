@@ -6,7 +6,6 @@ import {
   ReactFlow,
   Node,
   useNodesState,
-  Panel,
   useEdgesState,
   Controls,
   ReactFlowInstance,
