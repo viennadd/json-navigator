@@ -184,7 +184,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
       <Editor
         defaultLanguage="json"
         defaultValue={initialContent}
-        theme="vs"
+        theme="vs-dark"
         options={{
           readOnly: true,
           minimap: { enabled: true },
