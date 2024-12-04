@@ -1,9 +1,9 @@
 {
   "manifest_version": 3,
   "name": "JSON Navigator",
-  "description": "Transform raw JSON into an intuitive, interactive explorer. Easily navigate complex JSON structures with collapsible trees, syntax highlighting, and powerful search. Perfect for developers, API testers, and anyone working with JSON data.",
+  "description": "Transform and explore JSON data with an interactive viewer featuring syntax highlighting, and powerful search capabilities.",
   "version": "1.0",
-  "permissions": ["activeTab"],
+  "permissions": [],
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
