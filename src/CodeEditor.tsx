@@ -1,12 +1,8 @@
-import React, {
-  Dispatch,
-  SetStateAction,
-  useRef,
-  useState,
-} from "react";
+import React, { Dispatch, SetStateAction, useRef, useState } from "react";
 import { editor } from "monaco-editor";
 import { CodeOnlyIcon, SplitViewIcon } from "./icons";
 import { Editor } from "@monaco-editor/react";
+import { FEEDBACK_URL } from "./const";
 
 interface CodeEditorProps {
   initialContent: string;
@@ -97,6 +93,15 @@ const TopMenu: React.FC<TopMenuProps> = (props: TopMenuProps) => {
             Format Code
           </span>
         )}
+
+        <span
+          className="menu-item"
+          id="menu-issues"
+          title={`Feature Request, Bug Report, Feedback: ${FEEDBACK_URL}`}
+          onClick={() => window.open(FEEDBACK_URL, '_blank')}
+        >
+          ?
+        </span>
       </div>
     </div>
   );
