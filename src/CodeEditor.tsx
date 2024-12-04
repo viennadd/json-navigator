@@ -1,4 +1,9 @@
-import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useRef,
+  useState,
+} from "react";
 import { editor } from "monaco-editor";
 import { CodeOnlyIcon, SplitViewIcon } from "./icons";
 import { Editor } from "@monaco-editor/react";
@@ -89,7 +94,7 @@ const TopMenu: React.FC<TopMenuProps> = (props: TopMenuProps) => {
             title="Code Prettify."
             onClick={() => setFormattingState(!showFormattedContent)}
           >
-            Show Pretty Code
+            Format Code
           </span>
         )}
       </div>
@@ -164,7 +169,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
     });
 
     monacoEditor.updateOptions({
-      'fontFamily': 'Code New Roman',
+      fontFamily: "Code New Roman",
     });
   };
 
