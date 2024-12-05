@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction, useRef, useState } from "react";
-import { editor } from "monaco-editor";
 import { CodeOnlyIcon, SplitViewIcon } from "./icons";
+import './monaco-config';
 import { Editor } from "@monaco-editor/react";
 import { FEEDBACK_URL } from "./const";
 
