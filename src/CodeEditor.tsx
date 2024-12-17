@@ -1,8 +1,22 @@
 import React, { Dispatch, SetStateAction, useRef, useState } from "react";
 import { CodeOnlyIcon, SplitViewIcon } from "./icons";
-import './monaco-config';
-import { Editor } from "@monaco-editor/react";
+import CodeMirror, {
+  EditorView,
+  keymap,
+  lineNumbers,
+  oneDark,
+  ReactCodeMirrorRef,
+} from "@uiw/react-codemirror";
+import {
+  foldAll,
+  unfoldAll,
+  syntaxTree,
+} from "@codemirror/language";
+
+import { json } from "@codemirror/lang-json";
+
 import { FEEDBACK_URL } from "./const";
+import { defaultKeymap } from "@codemirror/commands";
 
 interface CodeEditorProps {
   initialContent: string;
@@ -20,7 +34,7 @@ interface StatusBarProps {
 }
 
 interface TopMenuProps {
-  editorRef: React.MutableRefObject<editor.IStandaloneCodeEditor | null>;
+  editorRef: React.MutableRefObject<ReactCodeMirrorRef | null>;
   initialContent: string;
 }
 
@@ -34,27 +48,39 @@ const TopMenu: React.FC<TopMenuProps> = (props: TopMenuProps) => {
   const setFoldingState = (folded: boolean) => {
     setFolded(folded);
 
-    editorRef.current?.trigger(
-      "fold",
-      folded ? "editor.foldLevel2" : "editor.unfoldAll",
-      {}
-    );
+    const state = editorRef.current!.state;
+
+    console.log(syntaxTree(state!))
+    walkTree(syntaxTree(state!).cursor(), 0)
+
+    if (folded) {
+      foldAll(editorRef.current!.view!);
+    } else {
+      unfoldAll(editorRef.current!.view!);
+    }
   };
 
   const setFormattingState = (showFormattedContent: boolean) => {
     setShowFormattedContent(showFormattedContent);
+    const view = editorRef.current!.view!;
+    const newContent = showFormattedContent
+      ? JSON.stringify(JSON.parse(initialContent), null, defaultTabSize)
+      : initialContent;
+    const transaction = view.state.update({
+      changes: {
+        from: 0,
+        to: view.state.doc.length,
+        insert: newContent,
+      },
+    });
 
-    editorRef.current?.setValue(
-      showFormattedContent
-        ? JSON.stringify(JSON.parse(initialContent), null, defaultTabSize)
-        : initialContent
-    );
+    editorRef.current!.view!.dispatch(transaction);
   };
 
   return (
     <div id="topMenu">
       <div className="menu-group">
-        {folded ? (
+        {/* {folded ? (
           <span
             className="menu-item"
             id="menu-unfold"
@@ -72,7 +98,7 @@ const TopMenu: React.FC<TopMenuProps> = (props: TopMenuProps) => {
           >
             Fold Code
           </span>
-        )}
+        )} */}
 
         {showFormattedContent ? (
           <span
@@ -98,7 +124,7 @@ const TopMenu: React.FC<TopMenuProps> = (props: TopMenuProps) => {
           className="menu-item"
           id="menu-issues"
           title={`Feature Request, Bug Report, Feedback: ${FEEDBACK_URL}`}
-          onClick={() => window.open(FEEDBACK_URL, '_blank')}
+          onClick={() => window.open(FEEDBACK_URL, "_blank")}
         >
           ?
         </span>
@@ -133,13 +159,13 @@ const StatusBar: React.FC<StatusBarProps> = (props: StatusBarProps) => {
         )}
       </div>
       <div className="status-right">
-        <span className="status-item" id="position">
+        {/* <span className="status-item" id="position">
           Ln {position.line}, Col {position.column}
         </span>
 
         <span className="status-item" id="selection">
           Sel {selection}
-        </span>
+        </span> */}
       </div>
     </div>
   );
@@ -152,49 +178,36 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
 }) => {
   const [position, setPosition] = useState({ line: 1, column: 1 });
   const [selection, setSelection] = useState(0);
-  const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
-
-  const handleEditorDidMount = (
-    monacoEditor: editor.IStandaloneCodeEditor
-  ): void => {
-    editorRef.current = monacoEditor;
-    // Set up cursor position listener
-    monacoEditor.onDidChangeCursorPosition((e) => {
-      setPosition({
-        line: e.position.lineNumber,
-        column: e.position.column,
-      });
-    });
-
-    // Set up selection listener
-    monacoEditor.onDidChangeCursorSelection(() => {
-      const selection = monacoEditor.getSelection()!;
-      const selectedText = monacoEditor.getModel()!.getValueInRange(selection);
-      setSelection(selectedText.length);
-    });
-
-    monacoEditor.updateOptions({
-      fontFamily: "Code New Roman",
-    });
-  };
+  const editorRef = useRef<ReactCodeMirrorRef>(null);
 
   return (
     <div className="w-full" id="editor">
       <TopMenu editorRef={editorRef} initialContent={initialContent}></TopMenu>
-      <Editor
-        defaultLanguage="json"
-        defaultValue={initialContent}
-        theme="vs-dark"
-        options={{
-          readOnly: true,
-          minimap: { enabled: true },
-          fontSize: 12,
-          wordWrap: "off",
-          automaticLayout: true,
-          scrollBeyondLastLine: false,
-        }}
-        onMount={handleEditorDidMount}
+
+      <CodeMirror
+        ref={editorRef}
+        readOnly={true}
+        editable={false}
+        height="100%"
+        value={initialContent}
+        theme={oneDark}
+        extensions={[
+          keymap.of(defaultKeymap),
+          json(),
+          lineNumbers(),
+          // codeFolding(),
+          // jsonLevel2Folder(),
+          EditorView.theme({
+            "&": {
+              fontSize: "12px",
+            },
+            ".cm-scroller": {
+              fontFamily: "Code New Roman",
+            },
+          }),
+        ]}
       />
+
       <StatusBar
         showSplitView={showSplitView}
         setShowSplitView={setShowSplitView}

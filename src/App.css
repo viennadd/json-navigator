@@ -85,6 +85,10 @@
   font-family: "Code New Roman";
 }
 
+.cm-theme {
+  height: 100%;
+}
+
 .react-flow__controls button {
   border: 1px solid #007acc;
   border-right: none;
